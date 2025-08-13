@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const homeRouter = require('./routes/homeRoute.js')
+const cors = require('cors')
 const PORT = process.env.PORT || 3000;
 require('dotenv').config()
 
@@ -12,6 +13,7 @@ require('dotenv').config()
 // For updating an item - .findByIdAndUpdate(req.params.id, req.body)
 // For deleting an item - .findByIdAndDelete(req.params.id)
 
+app.use(cors())
 app.use(express.json())
 app.use('/', homeRouter)
 
