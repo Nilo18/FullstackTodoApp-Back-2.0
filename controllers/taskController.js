@@ -39,7 +39,7 @@ async function getTaskById(req, res, next) {
 
 async function updateTask(req, res, next) {
     try {
-        const reqId = req.params.id
+        const reqId = req.body.id
         const reqBody = req.body
         console.log(reqBody)
         // {new: true} tells mongoose to always send the updated request instead of sending before update first and after update next
