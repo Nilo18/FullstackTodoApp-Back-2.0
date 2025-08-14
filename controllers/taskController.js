@@ -43,7 +43,7 @@ async function updateTask(req, res, next) {
         const reqCompleted = req.body.completed
         console.log(reqCompleted)
         // {new: true} tells mongoose to always send the updated request instead of sending before update first and after update next
-        const updatedTask = await Task.findByIdAndUpdate(reqId, reqCompleted, {new: true}) 
+        const updatedTask = await Task.findByIdAndUpdate(reqId, reqCompleted) 
         res.status(200).json(updatedTask);
     } catch (error) {
         res.status(500).send(error)
