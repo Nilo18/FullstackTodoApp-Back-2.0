@@ -13,7 +13,15 @@ require('dotenv').config()
 // For updating an item - .findByIdAndUpdate(req.params.id, req.body)
 // For deleting an item - .findByIdAndDelete(req.params.id)
 
-app.use(cors())
+
+// Allows all origins, otherwise browser would block requests because frontend and backend are on different addresses
+// This is only fine during development
+// For production we need to make the API accessible only to our domain
+// For example:
+// app.use(cors({
+//   origin: 'https://your-frontend-domain.com'
+// }));
+app.use(cors()) 
 app.use(express.json())
 app.use('/', homeRouter)
 

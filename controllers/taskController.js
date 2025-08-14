@@ -39,7 +39,7 @@ async function getTaskById(req, res, next) {
 
 async function updateTask(req, res, next) {
     try {
-        const reqId = req.body.id
+        const reqId = req.body.id   
         const reqBody = req.body
         console.log(reqBody)
         // {new: true} tells mongoose to always send the updated request instead of sending before update first and after update next
@@ -59,7 +59,7 @@ async function deleteTask(req, res, next) {
     } catch (error) {
         res.status(500).send("Couldn't delete.")
     }
-
+    next()
 }
 
 module.exports = {getAllTasks, addTask, getTaskById, updateTask, deleteTask}
