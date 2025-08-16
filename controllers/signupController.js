@@ -31,11 +31,10 @@ async function addUser(req, res, next) {
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         res.status(200).json({accessToken}) // Access Token is a string so send it as an object
-        // res.status(200).json(newUser);
     } catch (err) {
         res.status(500).send(err.message)
     }
-    // next()
+    next()
 }
 
 module.exports = {addUser}
