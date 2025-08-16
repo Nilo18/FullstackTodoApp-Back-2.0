@@ -2,8 +2,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const homeRouter = require('./routes/homeRoute.js')
+const signupRouter = require('./routes/signup.js')
+const jwtRefreshRouter = require('./routes/jwtRefresh.js')
 const cors = require('cors')
 const PORT = process.env.PORT || 3000;
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 // Main mongoose methods:
@@ -23,7 +26,10 @@ require('dotenv').config()
 // }));
 app.use(cors()) 
 app.use(express.json())
+app.use(cookieParser())
 app.use('/', homeRouter)
+app.use('/signup', signupRouter)
+app.use('/refresh', jwtRefreshRouter)
 
 // This way the app handles async flow with more modern approach instead of using promises
 // And also starts accepting requests only after connecting to the database

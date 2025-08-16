@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const taskSchema = mongoose.Schema({
     taskName: {
         type: String,
-        required: [true, "Please fill enter the task name"]
+        required: [true, "Please enter the task name"]
     }, 
 
     completed: {
