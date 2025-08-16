@@ -9,7 +9,7 @@ async function addUser(req, res, next) {
         if (!password) {
            return res.status(401).send("Please provide a valid password.")  
         }
-        
+
         password = await bcrypt.hash(password, 10)
 
         if (await userExists(username)) {
@@ -30,7 +30,7 @@ async function addUser(req, res, next) {
             sameSite: 'Strict', // Ensures that other websites can't send the cookies
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        res.status(200).json(accessToken)
+        res.status(200).json({accessToken}) // Access Token is a string so send it as an object
         // res.status(200).json(newUser);
     } catch (err) {
         res.status(500).send(err)
