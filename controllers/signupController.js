@@ -14,8 +14,8 @@ async function addUser(req, res, next) {
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
         }
-        if (userExists(username, res)) {
-            res.status(401).send('A user with this username already exists.')
+        if (userExists(username)) {
+            return res.status(401).send('A user with this username already exists.')
         }
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
