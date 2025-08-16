@@ -8,6 +8,7 @@ const {sign} = require('jsonwebtoken')
 
 function createAccessToken(username) {
     console.log("Creating access token...")
+    console.log(ACCESS_TOKEN_SECRET);
     try {
         return sign({username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
     } catch (error) {
