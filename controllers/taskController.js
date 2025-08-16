@@ -58,7 +58,7 @@ async function deleteTask(req, res, next) {
         const deletedTask = await Task.findByIdAndDelete(reqBodyId)
         res.status(200).json(deletedTask)
     } catch (error) {
-        res.status(500).send("Couldn't delete.")
+        res.status(500).send(error)
     }
     next()
 }
