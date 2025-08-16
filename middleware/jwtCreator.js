@@ -8,7 +8,13 @@ const {sign} = require('jsonwebtoken')
 
 function createAccessToken(username) {
     console.log("Creating access token...")
-    return sign({username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+    try {
+        return sign({username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+    } catch (error) {
+        console.log("Access token creating failed: ", error)
+        throw error
+    }
+    
 }
 
 function createRefreshToken(username) {
