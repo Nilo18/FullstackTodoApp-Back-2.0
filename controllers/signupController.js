@@ -14,7 +14,7 @@ async function addUser(req, res, next) {
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
         }
-        checkIfUserExists(username, res)
+        await checkIfUserExists(username, res)
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
         // Send the refresh token as a cookie
