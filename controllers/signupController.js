@@ -5,16 +5,17 @@ const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreato
 async function addUser(req, res, next) {
     try {
         const { password, username, email } = req.body
-        console.log(email)
-        console.log(password)
-        console.log(username)
+        // console.log(email)
+        // console.log(password)
+        // console.log(username)
         if (password) {
             password = await bcrypt.hash(password, 10)
         } else {
             res.status(401).send("Please provide a valid password.") 
             return
         }
-        User.create(req.body)
+        const newUser = User.create(req.body)
+        console.log(`Added new user: ${newUser}`)
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
         // Send the refresh token as a cookie
