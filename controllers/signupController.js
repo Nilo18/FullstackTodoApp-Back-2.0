@@ -14,7 +14,7 @@ async function addUser(req, res, next) {
             res.status(401).send("Please provide a valid password.") 
             return
         }
-        const newUser = User.create(req.body)
+        const newUser = await User.create(req.body)
         console.log(`Added new user: ${newUser}`)
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
