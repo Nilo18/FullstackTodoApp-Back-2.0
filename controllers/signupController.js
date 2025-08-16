@@ -4,7 +4,10 @@ const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreato
 
 async function addUser(req, res, next) {
     try {
-        const { password, username } = req.body
+        const { password, username, email } = req.body
+        console.log(email)
+        console.log(password)
+        console.log(username)
         if (password) {
             password = await bcrypt.hash(password, 10)
         } else {
