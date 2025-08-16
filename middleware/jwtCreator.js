@@ -6,14 +6,14 @@
 
 const {sign} = require('jsonwebtoken')
 
-function createAccessToken(_username) {
+function createAccessToken(username) {
     console.log("Creating access token...")
-    return sign({username: `${_username}`}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+    return sign({username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }
 
-function createRefreshToken(_username) {
+function createRefreshToken(username) {
     console.log("Creating refresh token...")
-    return sign({username: `${_username}`}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
+    return sign({username}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
 }
 
 module.exports = {createAccessToken, createRefreshToken}
