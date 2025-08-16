@@ -1,7 +1,7 @@
 const User = require('../models/user.model.js')
 const bcrypt = require('bcryptjs')
 const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreator.js')
-const { checkIfUserExists } = require('../middleware/accExistenceChecker.js')
+const { userExists } = require('../middleware/accExistenceChecker.js')
 
 async function addUser(req, res, next) {
     try {
@@ -14,7 +14,9 @@ async function addUser(req, res, next) {
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
         }
-        await checkIfUserExists(username, res)
+        if (userExists(username, res)) {
+            res.status(401).send('A user with this username already exists.')
+        }
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
         // Send the refresh token as a cookie
