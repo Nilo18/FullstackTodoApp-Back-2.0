@@ -9,13 +9,17 @@ async function addUser(req, res, next) {
         if (!password) {
            return res.status(401).send("Please provide a valid password.")  
         }
+        
         password = await bcrypt.hash(password, 10)
+
+        if (await userExists(username)) {
+            return res.status(401).send('A user with this username already exists.')
+        }
+
         const newUser = await User.create({username, email, password})
+
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
-        }
-        if (userExists(username)) {
-            return res.status(401).send('A user with this username already exists.')
         }
         const accessToken = createAccessToken(username)
         const refreshToken = createRefreshToken(username)
