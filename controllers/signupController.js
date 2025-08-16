@@ -8,16 +8,17 @@ async function addUser(req, res, next) {
         console.log(email)
         console.log(password)
         console.log(username)
-        if (password) {
-            password = await bcrypt.hash(password, 10)
-        } else {
+        if (!password) {
             res.status(401).send("Please provide a valid password.") 
             return
         }
+        password = await bcrypt.hash(password, 10)
         const newUser = await User.create(req.body)
-        console.log(`Added new user: ${newUser}`)
+        console.log(newUser)
         const accessToken = createAccessToken(username)
+        console.log(accessToken)
         const refreshToken = createRefreshToken(username)
+        console.log(refreshToken)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
