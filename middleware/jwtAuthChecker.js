@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 function authenticate(req, res, next) {
     // req.headers.authorization contains the full token: Bearer <token> 
     // Split the token in the empty space and get the index 1 (actual value)
-    const token = req.headers.authorization?.split(" ")[1] 
+    const token = req.headers.authorization?.split(" ")[1]
+    console.log(token) 
     if (!token) {
         return res.status(401).send("No token provided.")
     }
