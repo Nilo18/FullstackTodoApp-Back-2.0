@@ -4,6 +4,7 @@ const app = express()
 const homeRouter = require('./routes/homeRoute.js')
 const signupRouter = require('./routes/signup.js')
 const jwtRefreshRouter = require('./routes/jwtRefresh.js')
+const loginRouter = require('./routes/login.js')
 const cors = require('cors')
 const PORT = process.env.PORT || 3000;
 const cookieParser = require('cookie-parser')
@@ -29,6 +30,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/', homeRouter)
 app.use('/signup', signupRouter)
+app.use('/login', loginRouter)
 app.use('/refresh', jwtRefreshRouter)
 
 // This way the app handles async flow with more modern approach instead of using promises

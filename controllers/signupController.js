@@ -32,7 +32,7 @@ async function addUser(req, res, next) {
         })
         res.status(200).json({accessToken}) // Access Token is a string so send it as an object
     } catch (err) {
-        res.status(500).send(err.message)
+        return res.status(500).send(err.message)
     }
     next()
 }
