@@ -10,7 +10,7 @@ homeRouter.delete('/', deleteTask)
 
 homeRouter.put('/', updateTask)
 
-homeRouter.get('/:id', getTaskById)
+homeRouter.get('/:id', getTaskById) // Moved this at the bottom so it doesn't assume routes like /login are ids
 
 
 

@@ -31,7 +31,7 @@ app.use(cookieParser())
 app.use('/signup', signupRouter)
 app.use('/login', loginRouter)
 app.use('/refresh', jwtRefreshRouter)
-app.use('/', homeRouter)
+app.use('/', homeRouter) // Moved the home route at the bottom because /:id caused issues, such as confusing /login for /:id
 
 // This way the app handles async flow with more modern approach instead of using promises
 // And also starts accepting requests only after connecting to the database
