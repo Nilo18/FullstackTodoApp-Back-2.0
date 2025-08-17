@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 
 // A schema is a the scheme/structure of the object (model) we're going to use, it contains info about all of the objects properties
 const taskSchema = mongoose.Schema({
+    userId: {
+        type: Number,
+        required: true
+    },
+
     taskName: {
         type: String,
         required: [true, "Please enter the task name"]

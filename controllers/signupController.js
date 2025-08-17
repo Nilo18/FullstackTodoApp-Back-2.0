@@ -16,7 +16,10 @@ async function addUser(req, res, next) {
             return res.status(401).send('A user with this username already exists.')
         }
 
-        const newUser = await User.create({username, email, password})
+        const userId = Math.floor(Math.random() * 10000000)
+        console.log(userId)
+        const newUser = await User.create({userId, username, email, password})
+        console.log(newUser)
 
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
@@ -30,6 +33,9 @@ async function addUser(req, res, next) {
             sameSite: 'Strict', // Ensures that other websites can't send the cookies
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
+        // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
+        // Generally, if there are no other request handlers, for example, POST or PUT controllers, best practice is to
+        // send the response and return to exit the function
         return res.status(200).json({accessToken}) // Access Token is a string so send it as an object
     } catch (err) {
         return res.status(500).send(err.message)

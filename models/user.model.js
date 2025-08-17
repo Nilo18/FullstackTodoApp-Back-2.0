@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
+    userId: {
+        type: Number,
+        required: true
+    },
+
     username: {
         type: String,
         required: [true, "Please enter a valid username"]
@@ -19,3 +24,4 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+

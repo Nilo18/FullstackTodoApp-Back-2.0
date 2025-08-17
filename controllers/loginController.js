@@ -27,6 +27,8 @@ async function loginUser(req, res, next) {
         })
         // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
         // This error is more likely to occur on GET requests
+        // Generally, if there are no other request handlers, for example, POST or PUT controllers, best practice is to
+        // send the response and return to exit the function
         return res.status(200).json({accessToken}) 
     } catch (err) {
        return res.status(500).send(err.message);

@@ -2,7 +2,12 @@ const Task = require('../models/task.model.js')
 
 async function getAllTasks(req, res, next) {
     try {
-        const tasks = await Task.find({})
+        const { userId } = req.body
+        console.log(userId)
+        if (!userId) {
+            return res.status(401).send('userId is invalid.')
+        }
+        const tasks = await Task.find({userId})
         res.status(200).json(tasks)
     } catch (error) {
         res.status(500).send(error)
@@ -12,6 +17,8 @@ async function getAllTasks(req, res, next) {
 
 async function addTask(req, res, next) {
     try {
+        // const { userId } = req.body
+        // console.log(userId)
         const task = await Task.create(req.body)
         if (!task) {
             return res.status(401).send('Please enter the task in a valid format.')
