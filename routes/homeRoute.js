@@ -8,9 +8,9 @@ homeRouter.post('/', addTask)
 
 homeRouter.delete('/', deleteTask)
 
-homeRouter.get('/:id', getTaskById)
-
 homeRouter.put('/', updateTask)
+
+homeRouter.get('/:id', getTaskById)
 
 
 

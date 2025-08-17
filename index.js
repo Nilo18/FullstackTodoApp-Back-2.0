@@ -28,10 +28,10 @@ require('dotenv').config()
 app.use(cors()) 
 app.use(express.json())
 app.use(cookieParser())
-app.use('/', homeRouter)
 app.use('/signup', signupRouter)
 app.use('/login', loginRouter)
 app.use('/refresh', jwtRefreshRouter)
+app.use('/', homeRouter)
 
 // This way the app handles async flow with more modern approach instead of using promises
 // And also starts accepting requests only after connecting to the database
