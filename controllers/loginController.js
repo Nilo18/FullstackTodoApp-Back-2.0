@@ -6,18 +6,18 @@ async function loginUser(req, res, next) {
     try {
         const {username} = req.body;
         const userPassword = req.body.password
-        const compareUsername = await User.findOne({username}) // Find the user by the username in mongodb
-        if (!compareUsername) {
+        const findByUsername = await User.findOne({username}) // Find the user by the username in mongodb
+        if (!findByUsername) {
             return res.status(404).send("User not found.")
         }
         // Compare the given password and the matching user's password using bcrypt
-        const comparePassword = await bcrypt.compare(userPassword, compareUsername.password) 
+        const comparePassword = await bcrypt.compare(userPassword, findByUsername.password) 
         if (!comparePassword) {
             return res.status(401).send("Please enter a valid password.")
         }
-        const accessToken = createAccessToken(username);
+        const accessToken = createAccessToken(findByUsername.userId, username);
 
-        const refreshToken = createRefreshToken(username);
+        const refreshToken = createRefreshToken(findByUsername.userId, username);
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,

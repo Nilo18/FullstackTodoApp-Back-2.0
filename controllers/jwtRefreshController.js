@@ -7,7 +7,8 @@ function resendAccessToken(req, res, next) {
         return
     }
     const {username} = req.body
-    const newAccessToken = createAccessToken(username)
+    const newAccessToken = createAccessToken(req.userId, username)
+    console.log(req.userId) // Delete this log later when comfortable
     res.status(200).json(newAccessToken)
     next()
 }

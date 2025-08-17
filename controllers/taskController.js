@@ -2,7 +2,6 @@ const Task = require('../models/task.model.js')
 
 async function getAllTasks(req, res, next) {
     try {
-        // const { userId } = req.body
         console.log(req.userId)
         if (!userId) {
             return res.status(401).send('userId is invalid.')
