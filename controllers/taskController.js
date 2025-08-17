@@ -3,13 +3,13 @@ const Task = require('../models/task.model.js')
 async function getAllTasks(req, res, next) {
     try {
         console.log(req.userId)
-        if (!userId) {
+        if (!req.userId) {
             return res.status(401).send('userId is invalid.')
         }
-        const tasks = await Task.find({userId: req.userId})
+        const tasks = await Task.find({userId: Number(req.userId)})
         res.status(200).json(tasks)
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send(error.message)
     }
     next()
 }
