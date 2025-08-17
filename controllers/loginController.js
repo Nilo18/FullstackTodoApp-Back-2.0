@@ -6,23 +6,18 @@ async function loginUser(req, res, next) {
     try {
         const {username} = req.body;
         const userPassword = req.body.password
-        console.log('Username: ', username)
-        console.log('Password: ', userPassword)
-        const compareUsername = await User.findOne({username})
-        console.log('Compared username: ', compareUsername)
+        const compareUsername = await User.findOne({username}) // Find the user by the username in mongodb
         if (!compareUsername) {
             return res.status(404).send("User not found.")
         }
-        const comparePassword = await bcrypt.compare(userPassword, compareUsername.password)
-        console.log('Compared password: ', comparePassword)
+        // Compare the given password and the matching user's password using bcrypt
+        const comparePassword = await bcrypt.compare(userPassword, compareUsername.password) 
         if (!comparePassword) {
             return res.status(401).send("Please enter a valid password.")
         }
         const accessToken = createAccessToken(username);
-        console.log('Access Token:', accessToken)
 
         const refreshToken = createRefreshToken(username);
-        console.log('Refresh Token:', refreshToken)
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -30,7 +25,9 @@ async function loginUser(req, res, next) {
             sameSite: 'Strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(200).json({accessToken})
+        // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
+        // This error is more likely to occur on GET requests
+        return res.status(200).json({accessToken}) 
     } catch (err) {
        return res.status(500).send(err.message);
     }

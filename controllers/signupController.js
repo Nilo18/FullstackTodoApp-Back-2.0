@@ -30,11 +30,11 @@ async function addUser(req, res, next) {
             sameSite: 'Strict', // Ensures that other websites can't send the cookies
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        res.status(200).json({accessToken}) // Access Token is a string so send it as an object
+        return res.status(200).json({accessToken}) // Access Token is a string so send it as an object
     } catch (err) {
         return res.status(500).send(err.message)
     }
-    next()
+    // next()
 }
 
 module.exports = {addUser}
