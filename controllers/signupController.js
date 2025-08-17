@@ -24,8 +24,8 @@ async function addUser(req, res, next) {
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
         }
-        const accessToken = createAccessToken(username)
-        const refreshToken = createRefreshToken(username)
+        const accessToken = createAccessToken(userId, username)
+        const refreshToken = createRefreshToken(userId, username)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
