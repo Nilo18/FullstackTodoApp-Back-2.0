@@ -2,7 +2,9 @@ const refreshTokenModel = require('../models/refreshToken.js')
 
 async function logout(req, res, next) {
     try {
+        console.log("logout controller is running...")
         const { refreshToken } = req.cookies
+        console.log(refreshToken)
         if (!refreshToken) {
             return res.status(401).send('Please provide a valid refresh token.')
         }
