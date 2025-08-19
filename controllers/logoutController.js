@@ -9,7 +9,7 @@ async function logout(req, res, next) {
             return res.status(401).send('Please provide a valid refresh token.')
         }
         console.log('Deleting refresh token...')
-        const deletedRefreshToken = await refreshTokenModel.deleteOne(refreshToken)
+        const deletedRefreshToken = await refreshTokenModel.deleteOne({token: refreshToken})
         console.log('Deleted refresh token: ', deletedRefreshToken)
 
         console.log('Clearing cookie...')
