@@ -5,20 +5,6 @@ const refreshTokenSchema = mongoose.Schema({
         type: String,
         required: true
     }
-    // userId: {
-    //     type: Number,
-    //     required: true
-    // },
-
-    // username: {
-    //     type: String,
-    //     required: true
-    // },
-
-    // expires: {
-    //     type: String,
-    //     required: true
-    // }
 })
 
 const refreshToken = mongoose.model('refreshToken', refreshTokenSchema)
