@@ -43,7 +43,7 @@ async function start() {
             console.log(`App is listening on port ${PORT}`)
         })
     } catch (error) {
-        console.log('Failed to connect to the database')
+        console.log('Failed to connect to the database: ', error)
     }
 }
 

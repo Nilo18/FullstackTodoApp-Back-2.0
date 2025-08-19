@@ -1,4 +1,5 @@
 const User = require('../models/user.model.js')
+const refreshTokenModel = require('../models/refreshToken.js')
 const bcrypt = require('bcryptjs')
 const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreator.js')
 const { userExists } = require('../middleware/accExistenceChecker.js')
@@ -26,6 +27,8 @@ async function addUser(req, res, next) {
         }
         const accessToken = createAccessToken(userId, username)
         const refreshToken = createRefreshToken(userId, username)
+        const storedRefreshToken = await refreshTokenModel.create(refreshToken)
+        console.log(storedRefreshToken)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
