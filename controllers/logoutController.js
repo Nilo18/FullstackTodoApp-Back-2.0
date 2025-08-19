@@ -8,8 +8,9 @@ async function logout(req, res, next) {
         if (!refreshToken) {
             return res.status(401).send('Please provide a valid refresh token.')
         }
+        console.log('Deleting refresh token...')
         const deletedRefreshToken = await refreshTokenModel.deleteOne(refreshToken)
-        console.log(deletedRefreshToken)
+        console.log('Deleted refresh token: ', deletedRefreshToken)
 
         console.log('Clearing cookie...')
         res.clearCookie('refreshToken', {
@@ -22,7 +23,7 @@ async function logout(req, res, next) {
         // return and end the response here since no other middleware is running on this route
         return res.status(200).json(deletedRefreshToken) 
     } catch (err) {
-        return res.status(500).send("Error while trying to log out: ", err.message)
+        return res.status(500).send("Error while trying to log out: ", err)
     }
 }
 
