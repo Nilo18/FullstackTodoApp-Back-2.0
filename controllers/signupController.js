@@ -27,7 +27,7 @@ async function addUser(req, res, next) {
         }
         const accessToken = createAccessToken(userId, username)
         const refreshToken = createRefreshToken(userId, username)
-        const storedRefreshToken = await refreshTokenModel.create(refreshToken)
+        const storedRefreshToken = await refreshTokenModel.create({token: refreshToken})
         console.log(storedRefreshToken)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {

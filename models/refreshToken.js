@@ -1,20 +1,24 @@
 const mongoose = require('mongoose')
 
 const refreshTokenSchema = mongoose.Schema({
-    userId: {
-        type: Number,
-        required: true
-    },
-
-    username: {
-        type: String,
-        required: true
-    },
-
-    expires: {
+    token: {
         type: String,
         required: true
     }
+    // userId: {
+    //     type: Number,
+    //     required: true
+    // },
+
+    // username: {
+    //     type: String,
+    //     required: true
+    // },
+
+    // expires: {
+    //     type: String,
+    //     required: true
+    // }
 })
 
 const refreshToken = mongoose.model('refreshToken', refreshTokenSchema)
