@@ -26,7 +26,10 @@ require('dotenv').config()
 // app.use(cors({
 //   origin: 'https://your-frontend-domain.com'
 // }));
-app.use(cors()) 
+app.use(cors({
+    origin: 'http://localhost:4200', // **** Changes to actual domain name later when you host the frontend ****
+    credentials: true // Allow cookies to be parsed
+})) 
 app.use(express.json())
 app.use(cookieParser())
 app.use('/signup', signupRouter)
