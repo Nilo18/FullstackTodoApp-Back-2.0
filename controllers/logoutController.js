@@ -23,7 +23,8 @@ async function logout(req, res, next) {
         // return and end the response here since no other middleware is running on this route
         return res.status(200).json(deletedRefreshToken) 
     } catch (err) {
-        return res.status(500).send("Error while trying to log out: ", err)
+        console.log('Caught the error: ', err.message)
+        return res.status(500).send("Error while trying to log out.")
     }
 }
 
