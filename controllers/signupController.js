@@ -27,8 +27,8 @@ async function addUser(req, res, next) {
         }
         const accessToken = createAccessToken(userId, username)
         const refreshToken = createRefreshToken(userId, username)
-        const storedRefreshToken = await refreshTokenModel.create(refreshToken)
-        console.log(storedRefreshToken)
+        // const storedRefreshToken = await refreshTokenModel.create(refreshToken)
+        // console.log(storedRefreshToken)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
