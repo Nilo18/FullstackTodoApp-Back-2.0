@@ -1,4 +1,5 @@
 const User = require('../models/user.model.js')
+const refreshTokenModel = require('../models/refreshToken.js')
 const bcrypt = require('bcryptjs')
 const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreator.js')
 
@@ -18,6 +19,8 @@ async function loginUser(req, res, next) {
         const accessToken = createAccessToken(findByUsername.userId, username);
 
         const refreshToken = createRefreshToken(findByUsername.userId, username);
+        const storedRefreshToken = refreshTokenModel.create({token: refreshToken})
+        console.log(storedRefreshToken)   
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,
