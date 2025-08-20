@@ -16,7 +16,7 @@ function resendAccessToken(req, res, next) {
     const newAccessToken = jwt.sign({userId: payLoadUserId, username}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
     console.log('New access token is: ', newAccessToken)
     // console.log(req.userId) // Delete this log later when comfortable
-    res.status(200).json(newAccessToken)
+    res.status(200).json({accessToken: newAccessToken})
     next()
 }
 
