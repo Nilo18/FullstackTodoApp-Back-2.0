@@ -33,7 +33,7 @@ async function addUser(req, res, next) {
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
             secure: true,
-            sameSite: 'None', // **Ensures that other websites can't send the cookies** <- Outdated comment, changed to none because frontend had to make requests from different domain
+            sameSite: 'None', // changed to none because frontend had to make requests from different domain
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error

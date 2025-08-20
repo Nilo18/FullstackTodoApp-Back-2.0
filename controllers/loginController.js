@@ -19,13 +19,13 @@ async function loginUser(req, res, next) {
         const accessToken = createAccessToken(findByUsername.userId, username);
 
         const refreshToken = createRefreshToken(findByUsername.userId, username);
-        const storedRefreshToken = refreshTokenModel.create({token: refreshToken})
+        const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database
         console.log(storedRefreshToken)   
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict',
+            sameSite: 'None', // changed to none because frontend had to make requests from different domain
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
