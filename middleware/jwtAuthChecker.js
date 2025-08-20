@@ -11,6 +11,7 @@ function authenticate(req, res, next) {
     // We check if the token is valid
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
+            console.log("The error is: ", err.message)
             return res.status(400).send('Invalid Token')
         }
         req.userId = decoded.userId // We assign whatever value we want from the token to the request
