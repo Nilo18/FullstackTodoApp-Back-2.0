@@ -9,6 +9,7 @@ function resendAccessToken(req, res, next) {
     }
 
     try {
+        // Rely entirely on the refresh token to retrieve the necessary data for signing a new access token
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
         console.log('The payload is: ', payload)
         const payLoadUserId = payload.userId
