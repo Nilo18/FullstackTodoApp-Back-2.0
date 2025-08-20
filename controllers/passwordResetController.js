@@ -5,11 +5,18 @@ const bcrypt = require('bcryptjs')
 async function passwordResetter(req, res, next) {
     try {
         const { username, password } = req.body
+        if (!password) {
+            return res.status(401).send('Please provide a valid password')
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10) // Encrypt the new password
         // runValidators will make sure that the new password is matching the user model's password property in terms of data types
-        const foundUser = await User.findOneAndUpdate({username: username}, {$set: password}, {new: true, runValidators: true})
+        const foundUser = await User.findOneAndUpdate({username: username}, {$set: hashedPassword}, {new: true, runValidators: true})
         console.log('The user requesting a reset is: ', foundUser)
         const refreshToken = createRefreshToken(foundUser.userId, username)
         const accessToken = createAccessToken(foundUser.userId, username)
+        console.log('New refresh token is: ', refreshToken)
+        console.log('New access token is: ', accessToken)
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,
