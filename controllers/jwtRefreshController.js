@@ -7,7 +7,7 @@ function resendAccessToken(req, res, next) {
         res.status(401).send("Bad refresh token request.")
         return
     }
-
+    
     try {
         // Rely entirely on the refresh token to retrieve the necessary data for signing a new access token
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
