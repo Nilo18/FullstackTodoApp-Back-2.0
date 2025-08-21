@@ -28,7 +28,7 @@ require('dotenv').config()
 //   origin: 'https://your-frontend-domain.com'
 // }));
 app.use(cors({
-    origin: 'http://localhost:4200', // **** Changes to actual domain name later when you host the frontend ****
+    origin: ['http://localhost:4200', 'taskmanager-pi-wine.vercel.app'], // **** Changes to actual domain name later when you host the frontend ****
     credentials: true // Allow cookies to be parsed
 })) 
 app.use(express.json())
