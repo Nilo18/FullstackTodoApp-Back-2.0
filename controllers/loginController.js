@@ -14,7 +14,7 @@ async function loginUser(req, res, next) {
         // Compare the given password and the matching user's password using bcrypt
         const comparePassword = await bcrypt.compare(userPassword, findByUsername.password) 
         if (!comparePassword) {
-            return res.status(401).send("Please enter a valid password.")
+            return res.status(401).send("Please enter the correct password.")
         }
         const accessToken = createAccessToken(findByUsername.userId, username);
 
