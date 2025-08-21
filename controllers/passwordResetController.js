@@ -14,21 +14,16 @@ async function passwordResetter(req, res, next) {
             return res.status(401).send('Please provide a valid password')
         }
 
-        console.log(username)
-        console.log(password)
-
         const hashedPassword = await bcrypt.hash(password, 10) // Encrypt the new password
-        console.log('Hashed password: ', hashedPassword)
+
         // runValidators will make sure that the new password is matching the user model's password property in terms of data types
         const foundUser = await User.findOneAndUpdate({username: username}, {$set: {password: hashedPassword}}, {new: true, runValidators: true})
         if (!foundUser) {
             return res.status(404).send('User not found')
         }   
-        console.log('The user requesting a reset is: ', foundUser)
         const refreshToken = createRefreshToken(foundUser.userId, username)
         const accessToken = createAccessToken(foundUser.userId, username)
-        console.log('New refresh token is: ', refreshToken)
-        console.log('New access token is: ', accessToken)
+
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,

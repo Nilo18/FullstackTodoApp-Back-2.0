@@ -19,8 +19,7 @@ async function loginUser(req, res, next) {
         const accessToken = createAccessToken(findByUsername.userId, username);
 
         const refreshToken = createRefreshToken(findByUsername.userId, username);
-        const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database
-        console.log(storedRefreshToken)   
+        const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database 
 
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true,

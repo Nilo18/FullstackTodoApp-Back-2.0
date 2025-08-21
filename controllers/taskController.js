@@ -2,7 +2,6 @@ const Task = require('../models/task.model.js')
 
 async function getAllTasks(req, res, next) {
     try {
-        console.log(req.userId)
         if (!req.userId) {
             return res.status(401).send('userId is invalid.')
         }
@@ -16,7 +15,6 @@ async function getAllTasks(req, res, next) {
 
 async function addTask(req, res, next) {
     try {
-        console.log("userId: ", req.userId)
         // Since authenticate middleware assigned the req.userId from the JWT token,
         // we can use req.userId in the following middlewares (controllers) like this one
         const task = await Task.create({...req.body, userId: req.userId})

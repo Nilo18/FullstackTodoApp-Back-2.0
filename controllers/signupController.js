@@ -18,9 +18,7 @@ async function addUser(req, res, next) {
         }
 
         const userId = Math.floor(Math.random() * 10000000)
-        console.log(userId)
         const newUser = await User.create({userId, username, email, password})
-        console.log(newUser)
 
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
@@ -28,7 +26,6 @@ async function addUser(req, res, next) {
         const accessToken = createAccessToken(userId, username)
         const refreshToken = createRefreshToken(userId, username)
         const storedRefreshToken = await refreshTokenModel.create({token: refreshToken})
-        console.log(storedRefreshToken)
         // Send the refresh token as a cookie
         res.status(200).cookie('refreshToken', refreshToken, {
             httpOnly: true, // Make it httpOnly so js cannot access it 
