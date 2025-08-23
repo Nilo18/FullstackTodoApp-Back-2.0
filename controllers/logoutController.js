@@ -3,9 +3,9 @@ const refreshTokenModel = require('../models/refreshToken.js')
 async function logout(req, res, next) {
     try {
         const { refreshToken } = req.cookies
-        if (!refreshToken) {
-            return res.status(401).send('Please provide a valid refresh token.')
-        }
+        // if (!refreshToken) {
+        //     return res.status(401).send('Please provide a valid refresh token.')
+        // }
         const deletedRefreshToken = await refreshTokenModel.deleteOne({token: refreshToken})
         res.clearCookie('refreshToken', {
             httpOnly: true,
