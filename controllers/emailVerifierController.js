@@ -1,14 +1,15 @@
 const verificationToken = require('../models/verificationToken.model.js')
 const User = require('../models/user.model.js')
 const { createAccessToken } = require('../middleware/jwtCreator.js')
+const bcrypt = require('bcryptjs')
 
 async function verifyEmail(req, res, next) {
     try {
         const givenVerToken = req.params.token;
-        console.log(givenVerToken)
+        console.log('Given ver token: ', givenVerToken)
 
         const storedVerToken = await verificationToken.findOne({token: givenVerToken})
-        console.log(storedVerToken)
+        console.log('Stored ver token: ', storedVerToken)
 
         if (!storedVerToken) {
             return res.status(401).send('Invalid verification token.')
@@ -17,8 +18,16 @@ async function verifyEmail(req, res, next) {
         if (storedVerToken.expiry < new Date()) {
             return res.status(401).send('Verification token has expired.')
         }
+        
+        const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)
+        console.log('Hashed the password', hashedPassword)
 
-        const newUser = await User.create({userId: storedVerToken.userId, username, email, password})
+        const newUser = await User.create({
+            userId: storedVerToken.userId,
+            username: storedVerToken.username, 
+            email: storedVerToken.email,
+            password: hashedPassword
+        })
         console.log(newUser)        
         const accessToken = createAccessToken(storedVerToken.userId, storedVerToken.username)
         return res.status(200).json({accessToken})

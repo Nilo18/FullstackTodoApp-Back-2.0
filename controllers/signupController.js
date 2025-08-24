@@ -47,8 +47,6 @@ async function addUser(req, res, next) {
            return res.status(401).send("Please provide a valid password.")  
         }
 
-        password = await bcrypt.hash(password, 10)
-
         if (await userExists(username)) {
             return res.status(401).send('A user with this username already exists.')
         }
