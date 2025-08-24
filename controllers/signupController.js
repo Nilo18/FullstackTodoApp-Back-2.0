@@ -29,6 +29,7 @@ async function sendEmailVerification(toEmail, token) {
     })
 
     const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`
+    console.log(verificationLink)
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: toEmail,
