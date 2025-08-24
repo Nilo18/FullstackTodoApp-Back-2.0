@@ -4,7 +4,6 @@ const app = express()
 const homeRouter = require('./routes/homeRoute.js')
 const signupRouter = require('./routes/signup.js')
 const loginRouter = require('./routes/login.js')
-const logoutRouter = require('./routes/logout.js')
 const passwordResetRouter = require('./routes/passwordReset.js')
 const cors = require('cors')
 const PORT = process.env.PORT || 3000;
@@ -34,7 +33,6 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/signup', signupRouter)
 app.use('/login', loginRouter)
-app.use('/logout', logoutRouter)
 app.use('/password-reset', passwordResetRouter)
 app.use('/', homeRouter) // Moved the home route at the bottom because /:id caused issues, such as confusing /login for /:id
 
