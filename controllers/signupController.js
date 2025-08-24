@@ -1,6 +1,6 @@
 const User = require('../models/user.model.js')
 // const refreshTokenModel = require('../models/refreshToken.js')
-const verifcationToken = require('../models/verificationToken.model.js')
+const verificationToken = require('../models/verificationToken.model.js')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const { createAccessToken } = require('../middleware/jwtCreator.js')
@@ -11,7 +11,8 @@ const nodemailer = require('nodemailer')
 async function createVerificationToken(userId, username) {
     const token = crypto.randomBytes(32).toString('hex')
     const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
-    return await verifcationToken.create({userId, username, token, tokenExpiry})
+    const newVerToken = await verificationToken.create({userId, username, token, tokenExpiry})
+    return newVerToken
 }
 
 async function sendEmailVerification(toEmail, token) {
