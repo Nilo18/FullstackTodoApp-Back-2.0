@@ -5,8 +5,10 @@ const { createAccessToken } = require('../middleware/jwtCreator.js')
 async function verifyEmail(req, res, next) {
     try {
         const givenVerToken = req.params.token;
+        console.log(givenVerToken)
 
-        const storedVerToken = await verificationToken.findOne({givenVerToken})
+        const storedVerToken = await verificationToken.findOne({token: givenVerToken})
+        console.log(storedVerToken)
 
         if (!storedVerToken) {
             return res.status(401).send('Invalid verification token.')
