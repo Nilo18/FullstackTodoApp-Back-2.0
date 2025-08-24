@@ -22,5 +22,5 @@ const verificationTokenSchema = mongoose.Schema({
     }
 })
 
-const verificationToken = mongoose.model('verificationToken', verificationToken)
+const verificationToken = mongoose.model('verificationToken', verificationTokenSchema)
 module.exports = verificationToken
