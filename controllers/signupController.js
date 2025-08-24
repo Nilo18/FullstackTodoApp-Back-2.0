@@ -8,7 +8,7 @@ const { userExists } = require('../middleware/accExistenceChecker.js')
 
 const nodemailer = require('nodemailer')
 
-async function createVerificationToken(userId, username) {
+async function createVerificationToken(userId, username, email) {
     const token = crypto.randomBytes(32).toString('hex')
     const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
     const newVerToken = await verificationToken.create({userId, username, email, token, expiry: tokenExpiry})
