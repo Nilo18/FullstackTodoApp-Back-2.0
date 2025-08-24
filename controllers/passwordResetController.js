@@ -7,11 +7,11 @@ async function passwordResetter(req, res, next) {
         const { username, password } = req.body
 
         if (!username) {
-            return res.status(401).send('Please provide a valid username')
+            return res.status(401).send({message: 'Please provide a valid username'})
         }
 
         if (!password) {
-            return res.status(401).send('Please provide a valid password')
+            return res.status(401).send({message:'Please provide a valid password'})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10) // Encrypt the new password

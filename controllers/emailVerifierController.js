@@ -10,11 +10,11 @@ async function verifyEmail(req, res, next) {
         const storedVerToken = await verificationToken.findOne({token: givenVerToken})
 
         if (!storedVerToken) {
-            return res.status(401).send('Invalid verification token.')
+            return res.status(401).json({message: 'Invalid verification token.'})
         }
 
         if (storedVerToken.expiry < new Date()) {
-            return res.status(401).send('Verification token has expired.')
+            return res.status(401).json({message: 'Verification token has expired.'})
         }
         
         const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)

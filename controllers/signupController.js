@@ -40,7 +40,7 @@ async function addUser(req, res, next) {
     try {
         let { password, username, email } = req.body
         if (!password) {
-           return res.status(401).send("Please provide a valid password.")  
+           return res.status(401).json({message: "Please provide a valid password."})  
         }
 
         if (await userExists(username)) {
