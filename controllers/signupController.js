@@ -51,11 +51,10 @@ async function addUser(req, res, next) {
         }
 
         const userId = Math.floor(Math.random() * 10000000)
-        const newUser = await User.create({userId, username, email, password})
 
-        if (!newUser) {
-            return res.status(401).send("Please enter a valid user format.")
-        }
+        // if (!newUser) {
+        //     return res.status(401).send("Please enter a valid user format.")
+        // }
 
         const verToken = await createVerificationToken(userId, username)
         await sendEmailVerification(email, verToken)

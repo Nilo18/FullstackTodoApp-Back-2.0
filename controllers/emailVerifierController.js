@@ -1,4 +1,5 @@
 const verificationToken = require('../models/verificationToken.model.js')
+const User = require('../models/user.model.js')
 const { createAccessToken } = require('../middleware/jwtCreator.js')
 
 async function verifyEmail(req, res, next) {
@@ -15,6 +16,8 @@ async function verifyEmail(req, res, next) {
             return res.status(401).send('Verification token has expired.')
         }
 
+        const newUser = await User.create({userId: storedVerToken.userId, username, email, password})
+        console.log(newUser)        
         const accessToken = createAccessToken(storedVerToken.userId, storedVerToken.username)
         return res.status(200).json({accessToken})
     } catch (err) {
