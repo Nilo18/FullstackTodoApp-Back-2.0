@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const verificationToken = mongoose.Schema({
+const verificationTokenSchema = mongoose.Schema({
     userId: {
         type: Number,
         required: true
@@ -22,5 +22,5 @@ const verificationToken = mongoose.Schema({
     }
 })
 
-mongoose.model('verificationToken', verificationToken)
+const verificationToken = mongoose.model('verificationToken', verificationToken)
 module.exports = verificationToken
