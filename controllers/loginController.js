@@ -18,15 +18,15 @@ async function loginUser(req, res, next) {
         }
         const accessToken = createAccessToken(findByUsername.userId, username);
 
-        const refreshToken = createRefreshToken(findByUsername.userId, username);
-        const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database 
+        // const refreshToken = createRefreshToken(findByUsername.userId, username);
+        // const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database 
 
-        res.status(200).cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'None', // changed to none because frontend had to make requests from different domain
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        // res.status(200).cookie('refreshToken', refreshToken, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: 'None', // changed to none because frontend had to make requests from different domain
+        //     maxAge: 7 * 24 * 60 * 60 * 1000
+        // })
         // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
         // This error is more likely to occur on GET requests
         // Generally, if there are no other request handlers, for example, POST or PUT controllers, best practice is to

@@ -21,16 +21,16 @@ async function passwordResetter(req, res, next) {
         if (!foundUser) {
             return res.status(404).send('User not found')
         }   
-        const refreshToken = createRefreshToken(foundUser.userId, username)
+        // const refreshToken = createRefreshToken(foundUser.userId, username)
         const accessToken = createAccessToken(foundUser.userId, username)
 
 
-        res.status(200).cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'None',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        // res.status(200).cookie('refreshToken', refreshToken, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: 'None',
+        //     maxAge: 7 * 24 * 60 * 60 * 1000
+        // })
 
         return res.status(200).json({accessToken})
     } catch (err) {
