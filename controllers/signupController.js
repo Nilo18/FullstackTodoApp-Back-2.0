@@ -12,6 +12,7 @@ async function createVerificationToken(userId, username) {
     const token = crypto.randomBytes(32).toString('hex')
     const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
     const newVerToken = await verificationToken.create({userId, username, token, tokenExpiry})
+    console.log(newVerToken)
     return newVerToken
 }
 
