@@ -12,14 +12,10 @@ async function createVerificationToken(userId, username, email, password) {
     const token = crypto.randomBytes(32).toString('hex')
     const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
     const newVerToken = await verificationToken.create({userId, username, email, password, token, expiry: tokenExpiry})
-    console.log(newVerToken)
-    console.log(newVerToken.email)
     return newVerToken
 }
 
 async function sendEmailVerification(toEmail, verToken) {
-    console.log('Email: ', process.env.EMAIL_USER)
-    console.log('Password: ', process.env.EMAIL_PASS)   
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Service the sender is using
         // The sender's credentials
@@ -30,7 +26,6 @@ async function sendEmailVerification(toEmail, verToken) {
     })
 
     const verificationLink = `${process.env.BASE_URL}/verify-email/${verToken.token}`
-    console.log(verificationLink)
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: toEmail,
@@ -54,16 +49,9 @@ async function addUser(req, res, next) {
 
         const userId = Math.floor(Math.random() * 10000000)
 
-        // if (!newUser) {
-        //     return res.status(401).send("Please enter a valid user format.")
-        // }
-
         const verToken = await createVerificationToken(userId, username, email, password)
         await sendEmailVerification(email, verToken)
 
-        // const accessToken = createAccessToken(userId, username)
-        // // send the response and return to exit the function
-        // return res.status(200).json({accessToken}) // Access Token is a string so send it as an object
         return res.status(200).json({message: 'Signup successful! please verify your email.'})
     } catch (err) {
         return res.status(500).send(err.message)

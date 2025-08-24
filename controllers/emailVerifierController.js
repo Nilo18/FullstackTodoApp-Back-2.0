@@ -6,10 +6,8 @@ const bcrypt = require('bcryptjs')
 async function verifyEmail(req, res, next) {
     try {
         const givenVerToken = req.params.token;
-        console.log('Given ver token: ', givenVerToken)
 
         const storedVerToken = await verificationToken.findOne({token: givenVerToken})
-        console.log('Stored ver token: ', storedVerToken)
 
         if (!storedVerToken) {
             return res.status(401).send('Invalid verification token.')
@@ -19,9 +17,7 @@ async function verifyEmail(req, res, next) {
             return res.status(401).send('Verification token has expired.')
         }
         
-        console.log('Password before hashing: ', storedVerToken.password)
         const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)
-        console.log('Hashed the password', hashedPassword)
 
         const possibleUser = await User.findOne({userId: storedVerToken.userId})
         if (!possibleUser) {
@@ -31,13 +27,11 @@ async function verifyEmail(req, res, next) {
                 email: storedVerToken.email,
                 password: hashedPassword
             })
-            console.log('New user: ', newUser)  
         }
    
-        console.log('Possible duplicate: ', possibleUser)        
         const accessToken = createAccessToken(storedVerToken.userId, storedVerToken.username)
-        const deletedVerToken = await verificationToken.deleteOne({token: givenVerToken})
-        console.log('Deleted verification token: ', deletedVerToken)
+        // This is an atomic operation to ensure the deletion happens all at once
+        await verificationToken.findOneAndDelete({token: givenVerToken})
         return res.status(200).json({accessToken})
     } catch (err) {
         return res.status(500).send("Server error: couldn't verify email.")
