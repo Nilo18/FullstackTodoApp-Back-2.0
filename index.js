@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const app = express()
 const homeRouter = require('./routes/homeRoute.js')
 const signupRouter = require('./routes/signup.js')
+const emailVerifyRouter = require('./routes/emailVerifier.js')
 const loginRouter = require('./routes/login.js')
 const passwordResetRouter = require('./routes/passwordReset.js')
 const cors = require('cors')
@@ -26,12 +27,13 @@ require('dotenv').config()
 //   origin: 'https://your-frontend-domain.com'
 // }));
 app.use(cors({
-    origin: ['http://localhost:4200', 'https://taskmanager-pi-wine.vercel.app'], // **** Changes to actual domain name later when you host the frontend ****
+    origin: ['http://localhost:4200', 'https://taskmanager-pi-wine.vercel.app'], 
     credentials: true // Allow cookies to be parsed
 })) 
 app.use(express.json())
 app.use(cookieParser())
 app.use('/signup', signupRouter)
+app.use('/verify-email', emailVerifyRouter)
 app.use('/login', loginRouter)
 app.use('/password-reset', passwordResetRouter)
 app.use('/', homeRouter) // Moved the home route at the bottom because /:id caused issues, such as confusing /login for /:id

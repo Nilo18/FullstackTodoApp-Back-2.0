@@ -1,5 +1,5 @@
 const User = require('../models/user.model.js')
-const refreshTokenModel = require('../models/refreshToken.js')
+// const refreshTokenModel = require('../models/refreshToken.js')
 const bcrypt = require('bcryptjs')
 const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreator.js')
 

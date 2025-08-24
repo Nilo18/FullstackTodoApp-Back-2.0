@@ -1,8 +1,39 @@
 const User = require('../models/user.model.js')
-const refreshTokenModel = require('../models/refreshToken.js')
+// const refreshTokenModel = require('../models/refreshToken.js')
+const verifcationToken = require('../models/verificationToken.model.js')
 const bcrypt = require('bcryptjs')
-const {createAccessToken, createRefreshToken} = require('../middleware/jwtCreator.js')
+const crypto = require('crypto')
+const { createAccessToken } = require('../middleware/jwtCreator.js')
 const { userExists } = require('../middleware/accExistenceChecker.js')
+
+const nodemailer = require('nodemailer')
+
+async function createVerificationToken(userId, username) {
+    const token = crypto.randomBytes(32).toString('hex')
+    const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
+    return await verifcationToken.create({userId, username, token, tokenExpiry})
+}
+
+async function sendEmailVerification(toEmail, token) {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail', // Service the sender is using
+        // The sender's credentials
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    })
+
+    const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: toEmail,
+        subject: 'Verify your email',
+        html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`
+    }
+
+    await transporter.sendMail(mailOptions)
+}
 
 async function addUser(req, res, next) {
     try {
@@ -23,9 +54,14 @@ async function addUser(req, res, next) {
         if (!newUser) {
             return res.status(401).send("Please enter a valid user format.")
         }
-        const accessToken = createAccessToken(userId, username)
-        // send the response and return to exit the function
-        return res.status(200).json({accessToken}) // Access Token is a string so send it as an object
+
+        const verToken = await createVerificationToken(userId, username)
+        await sendEmailVerification(email, verToken)
+
+        // const accessToken = createAccessToken(userId, username)
+        // // send the response and return to exit the function
+        // return res.status(200).json({accessToken}) // Access Token is a string so send it as an object
+        return res.status(200).json({message: 'Signup successful! please verify your email.'})
     } catch (err) {
         return res.status(500).send(err.message)
     }

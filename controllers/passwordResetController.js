@@ -24,14 +24,6 @@ async function passwordResetter(req, res, next) {
         // const refreshToken = createRefreshToken(foundUser.userId, username)
         const accessToken = createAccessToken(foundUser.userId, username)
 
-
-        // res.status(200).cookie('refreshToken', refreshToken, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: 'None',
-        //     maxAge: 7 * 24 * 60 * 60 * 1000
-        // })
-
         return res.status(200).json({accessToken})
     } catch (err) {
         return res.status(500).send("Couldn't reset password: ", err.message)
