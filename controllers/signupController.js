@@ -8,10 +8,10 @@ const { userExists } = require('../middleware/accExistenceChecker.js')
 
 const nodemailer = require('nodemailer')
 
-async function createVerificationToken(userId, username, email) {
+async function createVerificationToken(userId, username, email, password) {
     const token = crypto.randomBytes(32).toString('hex')
     const tokenExpiry = new Date(Date.now() + 15 * 60 * 1000)
-    const newVerToken = await verificationToken.create({userId, username, email, token, expiry: tokenExpiry})
+    const newVerToken = await verificationToken.create({userId, username, email, password, token, expiry: tokenExpiry})
     console.log(newVerToken)
     console.log(newVerToken.email)
     return newVerToken
@@ -58,7 +58,7 @@ async function addUser(req, res, next) {
         //     return res.status(401).send("Please enter a valid user format.")
         // }
 
-        const verToken = await createVerificationToken(userId, username, email)
+        const verToken = await createVerificationToken(userId, username, email, password)
         await sendEmailVerification(email, verToken)
 
         // const accessToken = createAccessToken(userId, username)

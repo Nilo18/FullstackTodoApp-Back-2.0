@@ -19,6 +19,7 @@ async function verifyEmail(req, res, next) {
             return res.status(401).send('Verification token has expired.')
         }
         
+        console.log('Password before hashing: ', storedVerToken.password)
         const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)
         console.log('Hashed the password', hashedPassword)
 
