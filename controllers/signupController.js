@@ -17,6 +17,8 @@ async function createVerificationToken(userId, username) {
 }
 
 async function sendEmailVerification(toEmail, token) {
+    console.log('Email: ', process.env.EMAIL_USER)
+    console.log('Password: ', process.env.EMAIL_PASS)   
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Service the sender is using
         // The sender's credentials
