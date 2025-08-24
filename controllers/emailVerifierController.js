@@ -23,14 +23,21 @@ async function verifyEmail(req, res, next) {
         const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)
         console.log('Hashed the password', hashedPassword)
 
-        const newUser = await User.create({
-            userId: storedVerToken.userId,
-            username: storedVerToken.username, 
-            email: storedVerToken.email,
-            password: hashedPassword
-        })
-        console.log(newUser)        
+        const possibleUser = await User.findOne({userId: storedVerToken.userId})
+        if (!possibleUser) {
+                const newUser = await User.create({
+                userId: storedVerToken.userId,
+                username: storedVerToken.username, 
+                email: storedVerToken.email,
+                password: hashedPassword
+            })
+            console.log('New user: ', newUser)  
+        }
+   
+        console.log('Possible duplicate: ', possibleUser)        
         const accessToken = createAccessToken(storedVerToken.userId, storedVerToken.username)
+        const deletedVerToken = await verificationToken.deleteOne({token: givenVerToken})
+        console.log('Deleted verification token: ', deletedVerToken)
         return res.status(200).json({accessToken})
     } catch (err) {
         return res.status(500).send("Server error: couldn't verify email.")
