@@ -17,20 +17,6 @@ async function loginUser(req, res, next) {
             return res.status(401).send({error: "Please enter the correct password."})
         }
         const accessToken = createAccessToken(findByUsername.userId, username);
-
-        // const refreshToken = createRefreshToken(findByUsername.userId, username);
-        // const storedRefreshToken = refreshTokenModel.create({token: refreshToken}) // Store the refresh token in the database 
-
-        // res.status(200).cookie('refreshToken', refreshToken, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: 'None', // changed to none because frontend had to make requests from different domain
-        //     maxAge: 7 * 24 * 60 * 60 * 1000
-        // })
-        // Since we have no other requests on this route, we return the response to exit and avoid multiple responeses error
-        // This error is more likely to occur on GET requests
-        // Generally, if there are no other request handlers, for example, POST or PUT controllers, best practice is to
-        // send the response and return to exit the function
         return res.status(200).json({accessToken}) 
     } catch (err) {
        return res.status(500).send(err.message);
