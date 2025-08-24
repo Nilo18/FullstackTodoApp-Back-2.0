@@ -16,7 +16,7 @@ async function createVerificationToken(userId, username) {
     return newVerToken
 }
 
-async function sendEmailVerification(toEmail, token) {
+async function sendEmailVerification(toEmail, verToken) {
     console.log('Email: ', process.env.EMAIL_USER)
     console.log('Password: ', process.env.EMAIL_PASS)   
     const transporter = nodemailer.createTransport({
@@ -28,7 +28,7 @@ async function sendEmailVerification(toEmail, token) {
         }
     })
 
-    const verificationLink = `${process.env.BASE_URL}/verify-email/${token}`
+    const verificationLink = `${process.env.BASE_URL}/verify-email/${verToken.token}`
     console.log(verificationLink)
     const mailOptions = {
         from: process.env.EMAIL_USER,
