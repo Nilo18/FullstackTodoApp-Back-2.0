@@ -19,7 +19,7 @@ async function passwordResetter(req, res, next) {
         // runValidators will make sure that the new password is matching the user model's password property in terms of data types
         const foundUser = await User.findOneAndUpdate({username: username}, {$set: {password: hashedPassword}}, {new: true, runValidators: true})
         if (!foundUser) {
-            return res.status(404).send('User not found')
+            return res.status(404).json({message: 'User not found'})
         }   
         // const refreshToken = createRefreshToken(foundUser.userId, username)
         const accessToken = createAccessToken(foundUser.userId, username)
