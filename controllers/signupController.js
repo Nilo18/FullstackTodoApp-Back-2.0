@@ -44,7 +44,7 @@ async function addUser(req, res, next) {
         }
 
         if (await userExists(username)) {
-            return res.status(401).send('A user with this username already exists.')
+            return res.status(401).json({message: "A user with this username already exists."})
         }
 
         const userId = Math.floor(Math.random() * 10000000)
