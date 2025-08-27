@@ -19,6 +19,7 @@ async function verifyEmail(req, res, next) {
         
         const hashedPassword = await bcrypt.hash(storedVerToken.password, 10)
 
+        // Ensure that only one instance of the new user is added to the database
         const possibleUser = await User.findOne({userId: storedVerToken.userId})
         if (!possibleUser) {
                 const newUser = await User.create({

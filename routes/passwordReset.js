@@ -1,7 +1,9 @@
 const express = require('express')
 const passwordResetRouter = express.Router()
-const { passwordResetter } = require('../controllers/passwordResetController.js')
+const { sendPasswordResetReq, resetPassword } = require('../controllers/passwordResetController.js')
 
-passwordResetRouter.put('/', passwordResetter)
+passwordResetRouter.post('/', sendPasswordResetReq)
+
+passwordResetRouter.put('/:token', resetPassword)
 
 module.exports = passwordResetRouter
