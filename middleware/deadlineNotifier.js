@@ -8,19 +8,32 @@ async function checkTaskExpiry() {
         const upcoming = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
         const expiringTasks = await Task.find({deadline: {$gte: now, $lte: upcoming}, notified: false})
-        let expiringTasksNames = []
-        let message
-
-        expiringTasks.forEach(async (task) => {
-            // expiringTasksNames.push(task.taskName)
-            expiringTasksNames = expiringTasks.map(t => `- ${t.taskName}`).join('\n')
-            message = `Following tasks have less then 24 hours until they expire: ${expiringTasksNames}\n`
-            task.notified = true;
-            await task.save()
+        // Step 1: Group tasks by userId
+        const tasksByUser = {};
+        expiringTasks.forEach(task => {
+        if (!tasksByUser[task.userId]) tasksByUser[task.userId] = [];
+        tasksByUser[task.userId].push(task);
         });
 
-        const user = await User.findOne({userId: task.userId}) // Find the user whose tasks are about to expire
-        await sendEmailToNotify(user.email, 'Tasks are expiring', message, 'gmail')
+        // Step 2: Send one email per user
+        for (const userId in tasksByUser) {
+        const tasks = tasksByUser[userId];
+        const user = await User.findOne({ userId });
+
+        // Build a message listing all tasks
+        const taskList = tasks.map(t => `- ${t.taskName}`).join('\n');
+        const message = `Following tasks have less than 24 hours until they expire:\n${taskList}`;
+
+        // Send a single email
+        await sendEmailToNotify(user.email, 'Tasks are expiring', message, 'gmail');
+
+        // Mark all tasks as notified
+        for (const task of tasks) {
+            task.notified = true;
+            await task.save();
+        }
+    }
+
     } catch (err) {
         return console.log("Couldn't send reminder: ", err)
     }
