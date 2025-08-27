@@ -53,6 +53,8 @@ async function resetPassword(req, res, next) {
         // We could also use foundToken.userId, but to keep it consistent, updatedUser.userId will be used
         const accessToken = createAccessToken(updatedUser.userId, updatedUser.username)
 
+        await resetToken.findOneAndDelete({token: givenResetToken})
+
         return res.status(200).json({accessToken})
     } catch(err) {
         return res.status(500).send(err.message)
