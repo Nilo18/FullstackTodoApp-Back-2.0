@@ -15,8 +15,8 @@ async function sendPasswordResetReq(req, res, next) {
         // Use username to find the exact account because one email can have multiple accounts
         const foundUser = await User.findOne({username: username})
         console.log(foundUser)
-        if (!foundUser) {
-            return res.status(404).json({message: 'User with this username was not found'})
+        if (!foundUser.username || !foundUser.email) {
+            return res.status(404).json({message: 'User with this username or email was not found'})
         }   
 
         const newResetToken = crypto.randomBytes(32).toString("hex")
