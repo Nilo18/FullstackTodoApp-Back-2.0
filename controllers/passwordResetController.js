@@ -14,7 +14,7 @@ async function sendPasswordResetReq(req, res, next) {
         //, {$set: {password: hashedPassword}}, {new: true, runValidators: true}
         // Use username to find the exact account because one email can have multiple accounts
         // $ denotes an operator in mongoose, $or will search for an user whose username OR email matches
-        const foundUser = await User.findOne({$or: [{username: username}, {email: email}]})
+        const foundUser = await User.findOne({username: username, email: email})
         console.log(foundUser)
         if (!foundUser) {
             return res.status(404).json({message: 'User with this username or email was not found'})
