@@ -1,5 +1,5 @@
 const { createRefreshToken, createAccessToken } = require('../middleware/jwtCreator.js')
-const { sendEmailVerify } = require('../middleware/mailSender.js')
+const { sendEmailToVerify } = require('../middleware/mailSender.js')
 const User = require('../models/user.model.js')
 const resetToken = require('../models/resetToken.model.js')
 const bcrypt = require('bcryptjs')
@@ -24,7 +24,7 @@ async function sendPasswordResetReq(req, res, next) {
         // Will expire in 15 mins
         await resetToken.create({userId: foundUser.userId, token: newResetToken, expiry: new Date(Date.now() + 15 * 60 * 1000)})
         const verificationLink = `${process.env.BASE_URL}/password-reset/${newResetToken}`
-        await sendEmailVerify(email, verificationLink, 'gmail')
+        await sendEmailToVerify(email, verificationLink, 'gmail')
 
         res.status(200).json({message: 'Request sent, check email to verify.'})
         // const accessToken = createAccessToken(foundUser.userId, username)

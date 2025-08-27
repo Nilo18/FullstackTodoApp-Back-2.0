@@ -11,7 +11,7 @@ function createEmailTransport(senderService) {
     })
 }
 
-async function sendEmailVerify(toEmail, link, senderService) {
+async function sendEmailToVerify(toEmail, link, senderService) {
     try {
         const transporter = createEmailTransport(senderService)
 
@@ -28,4 +28,21 @@ async function sendEmailVerify(toEmail, link, senderService) {
     }
 }
 
-module.exports = {sendEmailVerify}
+async function sendEmailToNotify(toEmail, givenSubject, message, senderService) {
+    try {
+        const transporter = createEmailTransport(senderService)
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: toEmail,
+            subject: givenSubject,
+            text: message
+        }
+
+        await transporter.sendMail(mailOptions)
+    } catch(err) {
+        return console.log("Couldn't notify: ", err)
+    }
+}
+
+module.exports = {sendEmailToVerify, sendEmailToNotify}

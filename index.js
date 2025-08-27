@@ -9,6 +9,8 @@ const passwordResetRouter = require('./routes/passwordReset.js')
 const cors = require('cors')
 const PORT = process.env.PORT || 3000;
 const cookieParser = require('cookie-parser')
+const nodeCron = require('node-cron')
+const checkTaskExpiry = require('./middleware/deadlineNotifier.js')
 require('dotenv').config()
 
 // Main mongoose methods:
@@ -54,3 +56,10 @@ async function start() {
 
 
 start()
+
+// The first argument means 
+// that it will do the cron job at the 0th minute of every hour, for every month, every day and every week 
+nodeCron.schedule('0 * * * *', () => {
+    console.log('Checking task deadlines...')
+    checkTaskExpiry() // Await isn't stricty necessary because checkTaskExpiry doesn't return a promise
+})
