@@ -11,7 +11,7 @@ async function checkTaskExpiry() {
 
         expiringTasks.forEach(async (task) => {
             const user = await User.findOne({userId: task.userId}) // Find the user whose tasks are about to expire
-            await sendEmailToNotify(user.email, 'Tasks are expiring', `Following tasks have less then 24 hours until they expire: ${task.title}\n`, 'gmail')
+            await sendEmailToNotify(user.email, 'Tasks are expiring', `Following tasks have less then 24 hours until they expire: ${task.taskName}\n`, 'gmail')
         });
     } catch (err) {
         return console.log("Couldn't send reminder: ", err)
