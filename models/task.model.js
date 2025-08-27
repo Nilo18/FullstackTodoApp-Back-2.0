@@ -20,6 +20,11 @@ const taskSchema = mongoose.Schema({
 
     deadline: {
         type: Date
+    },
+
+    notified: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true}) // timestamps: true sets createdAt and updateAt properties
 // This helps us keep track of when the object was created and last updated
