@@ -49,9 +49,11 @@ async function resetPassword(req, res, next) {
 
         const newPassword = await bcrypt.hash(password, 10)
         
-        await User.findOneAndUpdate({userId: foundToken.userId}, {$set: {password: newPassword}}, {new: true, runValidators: true})
+        const updatedUser = await User.findOneAndUpdate({userId: foundToken.userId}, {$set: {password: newPassword}}, {new: true, runValidators: true})
+        // We could also use foundToken.userId, but to keep it consistent, updatedUser.userId will be used
+        const accessToken = createAccessToken(updatedUser.userId, updatedUser.username)
 
-        return res.status(200).json({message: 'Password changed successfully!'})
+        return res.status(200).json({accessToken})
     } catch(err) {
         return res.status(500).send(err.message)
     }
