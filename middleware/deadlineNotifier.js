@@ -7,6 +7,11 @@ async function checkTaskExpiry() {
         const now = new Date()
         const upcoming = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
+        await Task.updateMany(
+            { notified: { $exists: false } },
+            { $set: { notified: false } }
+        );
+
         const expiringTasks = await Task.find({deadline: {$gte: now, $lte: upcoming}, notified: false})
         console.log('The tasks about to expire: ', expiringTasks)
         // Step 1: Group tasks by userId
