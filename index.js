@@ -59,7 +59,6 @@ start()
 
 // The first argument means 
 // that it will do the cron job at the 0th minute of every hour, for every month, every day and every week 
-nodeCron.schedule('*/3 * * * *', () => {
-    console.log('Checking task deadlines...')
+nodeCron.schedule('0 * * * *', () => {
     checkTaskExpiry() // Await isn't stricty necessary because checkTaskExpiry doesn't return a promise
 })
